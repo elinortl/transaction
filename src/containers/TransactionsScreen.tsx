@@ -5,6 +5,7 @@ import { withStyles, createStyles, WithStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
 import Modal from '@material-ui/core/Modal';
 import TransactionDialog from './TransactionDialog';
+import { fetchTransaction } from '../lib/api';
 
 const TRANSACTION_IDS = ['1', '2'];
 
@@ -37,15 +38,23 @@ type Props = WithStyles<typeof styles>;
 
 function TransactionScreen({ classes }: Props) {
   const [open, setOpen] = React.useState(false);
+  const [data, setData] = React.useState();
+
   // getModalStyle is not a pure function, we roll the style only on the first render
 
   const handleOpen = () => {
     setOpen(true);
+
+    fetchTransaction('1').then(data => {
+      setData(data);
+    });
   };
 
   const handleClose = () => {
     setOpen(false);
   };
+  console.log('data', data);
+
   return (
     <div className={classes.root}>
       <Modal
