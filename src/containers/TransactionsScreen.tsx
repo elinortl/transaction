@@ -4,6 +4,7 @@ import './style.css';
 import { withStyles, createStyles, WithStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
 import Modal from '@material-ui/core/Modal';
+import TransactionDialog from './TransactionDialog';
 
 const TRANSACTION_IDS = ['1', '2'];
 
@@ -53,7 +54,7 @@ function TransactionScreen({ classes }: Props) {
         open={open}
         onClose={handleClose}
       >
-        <div>test</div>
+        <TransactionDialog />
       </Modal>
       <img src="./curv_logo_white.png" alt="logo" className={classes.logo} />
 
