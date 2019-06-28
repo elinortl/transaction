@@ -43,10 +43,9 @@ function TransactionScreen({ classes }: Props) {
   // getModalStyle is not a pure function, we roll the style only on the first render
 
   const handleOpen = () => {
-    setOpen(true);
-
     fetchTransaction('1').then(data => {
       setData(data);
+      setOpen(true);
     });
   };
 
@@ -63,7 +62,7 @@ function TransactionScreen({ classes }: Props) {
         open={open}
         onClose={handleClose}
       >
-        <TransactionDialog />
+        <TransactionDialog data={data} onClose={handleClose} />
       </Modal>
       <img src="./curv_logo_white.png" alt="logo" className={classes.logo} />
 

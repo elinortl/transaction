@@ -66,7 +66,9 @@ const styles = (theme: Theme) =>
 
 type Props = WithStyles<typeof styles>;
 
-function TransactionDialog({ classes }: Props) {
+function TransactionDialog(Props) {
+  const { classes } = Props;
+  console.log('props', Props.data);
   return (
     <div className={classes.paper}>
       <div className={classes.topheader}>
@@ -82,7 +84,7 @@ function TransactionDialog({ classes }: Props) {
             aria-label="Account of current user"
             // aria-controls={menuId}
             aria-haspopup="true"
-            // onClick={handleProfileMenuOpen}
+            onClick={Props.onClose}
             color="inherit"
           >
             <CloseIcon />
