@@ -70,7 +70,7 @@ type Props = WithStyles<typeof styles>;
 function TransactionDialog(Props) {
   const { classes } = Props;
 
-  console.log('props', Props.data.approverGroups);
+  // console.log('props', Props.data.approverGroups);
   return (
     <div className={classes.paper}>
       <div className={classes.topheader}>
@@ -92,7 +92,7 @@ function TransactionDialog(Props) {
           </IconButton>
         </AppBar>
       </div>
-      <NestedList data={Props.data} />
+      <NestedList data={Props.data} title="Approvers" />
     </div>
   );
 }

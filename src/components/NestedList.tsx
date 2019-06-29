@@ -24,13 +24,14 @@ const useStyles = makeStyles(theme => ({
 
 function NestedList(props) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [groups, setGroups] = React.useState({});
 
-  function handleClick() {
-    setOpen(!open);
+  function handleClick(tid) {
+    // console.log('tid', tid);
+    setGroups({ [tid]: !groups[tid] });
   }
 
-  console.log('props', props.data.approverGroups);
+  // console.log('props', props.data.approverGroups);
   const items = props.data.approverGroups;
   return (
     <div>
@@ -38,24 +39,28 @@ function NestedList(props) {
         <List
           className={classes.root}
           key={1}
-          subheader={<ListSubheader>Approvers</ListSubheader>}
+          subheader={<ListSubheader>{props.title}</ListSubheader>}
         >
           {items.map(item => {
             return (
               <div key={item.id}>
                 {item.approvers != null ? (
                   <div key={item.id}>
-                    <ListItem button key={item.id} onClick={handleClick}>
+                    <ListItem
+                      button
+                      key={item.id}
+                      onClick={() => handleClick(item.id)}
+                    >
                       <ListItemIcon>
                         <PeopleIcon />
                       </ListItemIcon>
                       <ListItemText primary={item.name} />
-                      {open ? <ExpandLess /> : <ExpandMore />}
+                      {groups[item.id] ? <ExpandLess /> : <ExpandMore />}
                     </ListItem>
                     <Collapse
                       key={items.id}
                       component="li"
-                      in={open}
+                      in={groups[item.id]}
                       timeout="auto"
                       unmountOnExit
                     >
@@ -81,7 +86,11 @@ function NestedList(props) {
                     </Collapse>{' '}
                   </div>
                 ) : (
-                  <ListItem button onClick={handleClick} key={item.id}>
+                  <ListItem
+                    button
+                    onClick={() => handleClick(item.id)}
+                    key={item.id}
+                  >
                     <ListItemText primary={item.name} />
                   </ListItem>
                 )}

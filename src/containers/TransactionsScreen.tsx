@@ -60,7 +60,7 @@ function TransactionScreen({ classes }: Props) {
   const handleClose = () => {
     setOpen(false);
   };
-  console.log('data', data);
+  // console.log('data', data);
 
   return (
     <div className={classes.root}>
