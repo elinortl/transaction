@@ -2,12 +2,12 @@ import * as React from 'react';
 import './style.css';
 import { withStyles, createStyles, WithStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
+import NestedList from '../components/NestedList';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -37,20 +37,13 @@ const styles = (theme: Theme) =>
       height: 50
     },
     paper: {
-      // alignItems: 'center',
-      // alignSelf: 'center',
-      // justifyContent: 'center',
-      // justifySelf: 'center',
       flexDirection: 'column',
-      // position: 'absolute',
-      // width: 400,
       display: 'flex',
       height: '60%',
       width: '70%',
       flex: 1,
       backgroundColor: theme.palette.background.paper,
       boxShadow: theme.shadows[5],
-      // padding: theme.spacing(4),
       outline: 'none',
       position: 'absolute',
       top: '50%',
@@ -61,6 +54,14 @@ const styles = (theme: Theme) =>
       position: 'absolute',
       right: 20,
       top: 10
+    },
+    roott: {
+      width: '100%',
+      maxWidth: 360,
+      backgroundColor: theme.palette.background.paper
+    },
+    nested: {
+      paddingLeft: theme.spacing(4)
     }
   });
 
@@ -68,7 +69,8 @@ type Props = WithStyles<typeof styles>;
 
 function TransactionDialog(Props) {
   const { classes } = Props;
-  console.log('props', Props.data);
+
+  console.log('props', Props.data.approverGroups);
   return (
     <div className={classes.paper}>
       <div className={classes.topheader}>
@@ -82,7 +84,6 @@ function TransactionDialog(Props) {
             className={classes.close}
             edge="end"
             aria-label="Account of current user"
-            // aria-controls={menuId}
             aria-haspopup="true"
             onClick={Props.onClose}
             color="inherit"
@@ -91,6 +92,7 @@ function TransactionDialog(Props) {
           </IconButton>
         </AppBar>
       </div>
+      <NestedList data={Props.data} />
     </div>
   );
 }

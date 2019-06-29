@@ -6,6 +6,7 @@ import { Theme } from '@material-ui/core';
 import Modal from '@material-ui/core/Modal';
 import TransactionDialog from './TransactionDialog';
 import { fetchTransaction } from '../lib/api';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const TRANSACTION_IDS = ['1', '2'];
 
@@ -24,6 +25,9 @@ const styles = (theme: Theme) =>
       width: 120,
       marginBottom: 60
     },
+    progress: {
+      margin: theme.spacing(2)
+    },
     button: {
       backgroundColor: 'white',
       color: theme.palette.text.primary,
@@ -39,12 +43,14 @@ type Props = WithStyles<typeof styles>;
 function TransactionScreen({ classes }: Props) {
   const [open, setOpen] = React.useState(false);
   const [data, setData] = React.useState();
-
+  const [loading, setLoader] = React.useState(false);
   // getModalStyle is not a pure function, we roll the style only on the first render
 
-  const handleOpen = () => {
-    fetchTransaction('1').then(data => {
+  const handleOpen = tid => {
+    setLoader(true);
+    fetchTransaction(tid).then(data => {
       setData(data);
+      setLoader(false);
       setOpen(true);
     });
   };
@@ -64,19 +70,23 @@ function TransactionScreen({ classes }: Props) {
       >
         <TransactionDialog data={data} onClose={handleClose} />
       </Modal>
-      <img src="./curv_logo_white.png" alt="logo" className={classes.logo} />
 
-      {TRANSACTION_IDS.map(tid => (
-        <Button
-          variant="contained"
-          size="large"
-          className={classes.button}
-          key={tid}
-          onClick={handleOpen}
-        >
-          {`View Transaction ${tid}`}
-        </Button>
-      ))}
+      <img src="./curv_logo_white.png" alt="logo" className={classes.logo} />
+      {loading ? (
+        <CircularProgress className={classes.progress} />
+      ) : (
+        TRANSACTION_IDS.map(tid => (
+          <Button
+            variant="contained"
+            size="large"
+            className={classes.button}
+            key={tid}
+            onClick={() => handleOpen(tid)}
+          >
+            {`View Transaction ${tid}`}
+          </Button>
+        ))
+      )}
     </div>
   );
 }
