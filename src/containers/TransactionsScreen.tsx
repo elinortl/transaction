@@ -43,6 +43,7 @@ type Props = WithStyles<typeof styles>;
 function TransactionScreen({ classes }: Props) {
   const [open, setOpen] = React.useState(false);
   const [data, setData] = React.useState();
+  const [selectedId, setselectedId] = React.useState();
   const [loading, setLoader] = React.useState(false);
   // getModalStyle is not a pure function, we roll the style only on the first render
 
@@ -50,6 +51,7 @@ function TransactionScreen({ classes }: Props) {
     setLoader(true);
     fetchTransaction(tid).then(data => {
       setData(data);
+      setselectedId(tid);
       setLoader(false);
       setOpen(true);
     });
@@ -68,7 +70,11 @@ function TransactionScreen({ classes }: Props) {
         open={open}
         onClose={handleClose}
       >
-        <TransactionDialog data={data} onClose={handleClose} />
+        <TransactionDialog
+          data={data}
+          selectedId={selectedId}
+          onClose={handleClose}
+        />
       </Modal>
 
       <img src="./curv_logo_white.png" alt="logo" className={classes.logo} />

@@ -77,7 +77,7 @@ function TransactionDialog(Props) {
         <AppBar className={classes.appbar} position="static">
           <Toolbar>
             <Typography variant="h6" color="inherit">
-              Transaction 1
+              {` Transaction ${Props.selectedId}`}
             </Typography>
           </Toolbar>
           <IconButton
