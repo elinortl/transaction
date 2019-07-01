@@ -26,7 +26,7 @@ const styles = (theme: Theme) =>
       marginBottom: 60
     },
     progress: {
-      margin: theme.spacing(2)
+      // margin: theme.spacing(2)
     },
     button: {
       backgroundColor: 'white',
@@ -48,10 +48,10 @@ function TransactionScreen({ classes }: Props) {
   // getModalStyle is not a pure function, we roll the style only on the first render
 
   const handleOpen = tid => {
+    setselectedId(tid);
     setLoader(true);
     fetchTransaction(tid).then(data => {
       setData(data);
-      setselectedId(tid);
       setLoader(false);
       setOpen(true);
     });
@@ -76,23 +76,22 @@ function TransactionScreen({ classes }: Props) {
           onClose={handleClose}
         />
       </Modal>
-
       <img src="./curv_logo_white.png" alt="logo" className={classes.logo} />
-      {loading ? (
-        <CircularProgress className={classes.progress} />
-      ) : (
-        TRANSACTION_IDS.map(tid => (
-          <Button
-            variant="contained"
-            size="large"
-            className={classes.button}
-            key={tid}
-            onClick={() => handleOpen(tid)}
-          >
-            {`View Transaction ${tid}`}
-          </Button>
-        ))
-      )}
+      {TRANSACTION_IDS.map(tid => (
+        <Button
+          variant="contained"
+          size="large"
+          className={classes.button}
+          key={tid}
+          onClick={() => handleOpen(tid)}
+        >
+          {loading && selectedId === tid ? (
+            <CircularProgress className={classes.progress} size={16} />
+          ) : (
+            `View Transaction ${tid}`
+          )}
+        </Button>
+      ))}
     </div>
   );
 }

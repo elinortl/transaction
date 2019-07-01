@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './style.css';
-import { withStyles, createStyles, WithStyles } from '@material-ui/styles';
+import { withStyles, createStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -8,18 +8,10 @@ import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import NestedList from '../components/NestedList';
+import Button from '@material-ui/core/Button';
 
 const styles = (theme: Theme) =>
   createStyles({
-    root: {
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: theme.palette.primary.dark,
-      width: '100%',
-      height: '100%'
-    },
     topheader: {
       width: '100%',
       margin: 0,
@@ -29,12 +21,14 @@ const styles = (theme: Theme) =>
       alignItems: 'center'
     },
     button: {
-      backgroundColor: 'white',
-      color: theme.palette.text.primary,
-      // color: 'white',
+      backgroundColor: theme.palette.primary.dark,
+      color: 'white',
+      // marginBottom: 20,
+      width: '90%',
       marginBottom: 20,
-      width: 240,
-      height: 50
+      position: 'absolute',
+      alignSelf: 'center',
+      bottom: 0
     },
     paper: {
       flexDirection: 'column',
@@ -48,27 +42,21 @@ const styles = (theme: Theme) =>
       position: 'absolute',
       top: '50%',
       left: '50%',
-      transform: 'translate(-50%, -50%)'
+      transform: 'translate(-50%, -50%)',
+      overflow: 'auto'
     },
     close: {
       position: 'absolute',
       right: 20,
       top: 10
     },
-    roott: {
-      width: '100%',
-      maxWidth: 360,
-      backgroundColor: theme.palette.background.paper
-    },
     nested: {
       paddingLeft: theme.spacing(4)
     }
   });
 
-type Props = WithStyles<typeof styles>;
-
-function TransactionDialog(Props) {
-  const { classes } = Props;
+function TransactionDialog(props) {
+  const { classes } = props;
 
   // console.log('props', Props.data.approverGroups);
   return (
@@ -77,7 +65,7 @@ function TransactionDialog(Props) {
         <AppBar className={classes.appbar} position="static">
           <Toolbar>
             <Typography variant="h6" color="inherit">
-              {` Transaction ${Props.selectedId}`}
+              {` Transaction ${props.selectedId}`}
             </Typography>
           </Toolbar>
           <IconButton
@@ -85,14 +73,22 @@ function TransactionDialog(Props) {
             edge="end"
             aria-label="Account of current user"
             aria-haspopup="true"
-            onClick={Props.onClose}
+            onClick={props.onClose}
             color="inherit"
           >
             <CloseIcon />
           </IconButton>
         </AppBar>
       </div>
-      <NestedList data={Props.data} title="Approvers" />
+      <NestedList data={props.data} title="Approvers" />
+      {/* <Button
+        fullWidth
+        variant="contained"
+        size="large"
+        className={classes.button}
+      >
+        Approvers
+      </Button> */}
     </div>
   );
 }
